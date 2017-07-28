@@ -1,12 +1,16 @@
-let json = 
-  let ic = open_in "fixture.json" in
-  try
-    let line = input_line ic in
-    print_endline line;
-    flush stdout;
-    close_in ic
-  with e ->
-    close_in_noerr ic;
-    raise e
+let read_line_of_file ic = 
+    try
+      Some (input_line ic)
+    with End_of_file ->
+      close_in ic;
+      None
 
-let () = json
+let rec read_file ic =
+  match (read_line_of_file ic) with
+  | Some line -> line ^ "\n" ^  (read_file ic)
+  | None -> ""
+
+let read_json file_name =
+    read_file (open_in file_name)
+
+let () = print_endline (read_json "fixture.json")
