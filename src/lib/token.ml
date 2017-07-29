@@ -1,11 +1,11 @@
-type token_type =
+type tt =
   | LBrace
   | RBrace
   | LBracket
   | RBracket
-  | String of string
-  | Number of float
-  | Bool of bool
+  | StringT of string
+  | NumberT of float
+  | BoolT of bool
   | Null
   | Colon
   | Comma
@@ -27,22 +27,23 @@ let from_char = function
   | ":" -> Colon
   | "," -> Comma
   | "" -> EOF
-  | "true" -> Bool true
-  | "false" -> Bool false
-  | s when is_digit s -> Number (float_of_string s)
-  | s -> String s
+  | "true" -> BoolT true
+  | "false" -> BoolT false
+  | s when is_digit s -> NumberT (float_of_string s)
+  | s -> StringT s
 
 type line = int
 type column = int
-type token = token_type * line * column
+type token = tt * line * column
 
 let trim_head s =
-  String.sub s 1 ((String.length s) - 1)
+  String.sub s 1 @@ (s |> String.length |> pred)
 
 let rec tokenize = function
   (*skip_white_space  *)
-  (* | " " -> tokenize  *)
-  | _ -> ((String "ok", 10, 14), "残りの文字列") 
+    _ -> ((Some LBrace), "")
+(* | " " -> (None, trim_head s) *)
+(* | _ -> ((String "ok", 10, 14), "残りの文字列")    *)
 
 let rec parse = function
   | _ -> true
