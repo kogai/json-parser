@@ -5,17 +5,21 @@ struct
     | RBrace
     | LBracket
     | RBracket
-    | String
-    | Number
-    | Bool
+    | String of string
+    | Number of float
+    | Bool of bool
     | Null
     | Colon
     | Comma
     | Illegal
     | EOF
 
-  let is_digit s = true
-  let is_string s = true
+  let is_digit s =
+    try
+      ignore (float_of_string s);
+      true
+    with Failure e ->
+      false
 
   let from_char = function
     | "{" -> LBrace
@@ -25,13 +29,14 @@ struct
     | ":" -> Colon
     | "," -> Comma
     | "" -> EOF
-    | "true" -> Bool
-    | "false" -> Bool
-    | s when is_digit s -> Number
-    | s when is_string s -> String
-    | _ -> Illegal
+    | "true" -> Bool true
+    | "false" -> Bool false
+    | s when is_digit s -> Number (float_of_string s)
+    | s -> String s
 
-  type token = token_type * int * int
+  type line = int
+  type column = int
+  type token = token_type * line * column
 
   type json =
     | String of string
