@@ -6,5 +6,6 @@
   }, {
     "name": "Washington",
     "digit": [888]
-  }]
+  }],
+  "negative": -100
 }
