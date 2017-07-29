@@ -11,7 +11,7 @@ Executable main
   BuildTools: ocamlbuild
   MainIs:     main.ml
 
-Executable testin
+Executable "suburi_ocaml_test"
   Path: test
   MainIs: main.test.ml
   Build$: flag(tests)
@@ -22,6 +22,6 @@ Executable testin
 
 Test "suburi_ocaml_test"
   Run$: flag(tests)
-  TestTools: testing
-  Command: $testing
+  TestTools: suburi_ocaml_test
+  Command: $suburi_ocaml_test
   WorkingDirectory: test

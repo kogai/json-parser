@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: d3f914f282ce7d115fa2edef467d2415)
+# DO NOT EDIT (digest: b6208709780eeb92d06192fb68dfc274)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -15,7 +15,7 @@ true: annot, bin_annot
 "_darcs": -traverse
 "_darcs": not_hygienic
 # Executable main
-# Executable testin
+# Executable suburi_ocaml_test
 <test/main.test.{native,byte}>: pkg_oUnit
 <test/*.ml{,i,y}>: pkg_oUnit
 # OASIS_STOP

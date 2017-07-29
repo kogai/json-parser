@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 26e99c67327b223f65c734d1760e3f72) *)
+(* DO NOT EDIT (digest: 093d347aef1faf07f747fbd0f462d4bd) *)
 
 This is the INSTALL file for the suburi-ocaml distribution.
 
@@ -13,8 +13,7 @@ In order to compile this package, you will need:
 
 * ocaml
 * findlib
-* oUnit for executable testin
-* testing for test suburi_ocaml_test
+* oUnit for executable suburi_ocaml_test
 
 Installing
 ==========
