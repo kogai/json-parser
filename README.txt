@@ -13,3 +13,6 @@ Copyright and license
 suburi-ocaml is distributed under the terms of the MIT License.
 
 (* OASIS_STOP *)
+
+./configure --enable-tests
+./configure --disable-tests
