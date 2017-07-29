@@ -14,5 +14,7 @@ build: [
 install: [make "install"]
 remove: ["ocamlfind" "remove" "suburi-ocaml"]
 depends: [
-  "ocamlfind"
+  "ocamlbuild" {build}
+  "ocamlfind" {build}
+  "sedlex" { >= "1.99.4" }
 ]

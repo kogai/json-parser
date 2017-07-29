@@ -1,11 +1,17 @@
-let rec range n =
-  match n with
-  | 0 -> []
-  | _ -> n::(range (n -1))
+let read_line_of_file ic = 
+  try
+    Some (input_line ic)
+  with End_of_file ->
+    close_in ic;
+    None
 
-let rec string_of_list = function
-  | [] -> ""
-  | x::xs -> string_of_int x ^ "," ^ string_of_list xs
+let rec read_file ic =
+  match (read_line_of_file ic) with
+  | Some line -> line ^ "\n" ^  (read_file ic)
+  | None -> ""
 
-let () =
-  print_endline @@ "Hello, world! range is " ^ (5 |> range |> string_of_list) 
+let read_json file_name =
+  read_file (open_in file_name)
+
+(* let () = print_endline @@ read_json "fixture.json" *)
+let () = "fixture.json" |> read_json |> print_endline
