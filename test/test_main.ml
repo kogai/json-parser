@@ -1,20 +1,14 @@
 open Token
 open OUnit2
 
-let test1 test_ctxt = assert_equal true true;;
-let test2 test_ctxt = assert_equal 0 0;;
-let test3 test_ctxt = assert_equal true (is_digit "100");;   
+let specs = [
+  "it should detect digit" >:: (fun ctx -> assert_equal true (is_digit "100"));
+  "it should detect string" >:: (fun ctx -> assert_equal false (is_digit "string"));
+]
 
 (* Name the test cases and group them together *)
 let suite =
-  "suite">:::
-  [
-    "test1">:: test1;
-    "test2">:: test2;
-    "test3">:: test3 
-  ]
-;;
+  "suite" >::: specs
 
 let () =
   run_test_tt_main suite
-;;
