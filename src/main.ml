@@ -1,3 +1,5 @@
+use Token
+
 let read_line_of_file ic = 
   try
     Some (input_line ic)

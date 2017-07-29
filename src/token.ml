@@ -1,5 +1,4 @@
-module Token =
-struct
+module Token = struct
   type token_type =
     | LBrace
     | RBrace
