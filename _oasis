@@ -4,7 +4,7 @@ Version:     0.1.0
 Synopsis:    try oasis
 Authors:     shinchi-kogai
 License:     MIT
-Plugins:     META (0.4), StdFiles (0.4), DevFiles (0.4)
+Plugins:     StdFiles (0.4)
 AlphaFeatures:    stdfiles_markdown
 BuildTools: ocamlbuild
 
