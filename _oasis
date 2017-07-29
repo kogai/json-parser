@@ -26,7 +26,8 @@ Executable test_lib
   CompiledObject: best
   Install: false
   BuildDepends:
-    oUnit
+    oUnit,
+    token
 
 Test test_lib
   Run$: flag(tests)
