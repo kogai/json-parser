@@ -14,3 +14,19 @@ Executable main
 Test test_main
   TestTools: main
   Command: $main
+
+Executable test_lib
+  Path: test
+  MainIs: test_main.ml
+  BuildTools: ocamlbuild
+  Build$: flag(tests)
+  CompiledObject: best
+  Install: false
+  BuildDepends: oUnit
+
+Test test_lib
+  Run$: flag(tests)
+  TestTools: test_lib
+  Command: $test_lib
+  WorkingDirectory: test
+

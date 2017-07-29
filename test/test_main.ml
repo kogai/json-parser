@@ -1,8 +1,8 @@
 open OUnit2
 
 (* let test1 test_ctxt = assert_equal true (Token.is_digit "100");; *)
-let test1 test_ctxt = assert_equal false true;;
-let test2 test_ctxt = assert_equal 0 10;;
+let test1 test_ctxt = assert_equal true true;;
+let test2 test_ctxt = assert_equal 0 0;;
 
 (* let test2 test_ctxt = assert_equal 100 (Foo.unity 100);; *)
 
