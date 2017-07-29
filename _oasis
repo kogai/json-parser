@@ -5,9 +5,23 @@ Synopsis:    try oasis
 Authors:     shinchi-kogai
 License:     MIT
 Plugins:     META (0.4), StdFiles (0.4), DevFiles (0.4)
+
 Executable main
   Path:       src
   BuildTools: ocamlbuild
   MainIs:     main.ml
-Test "suburi-ocaml-test"
-  Command: test
+
+Executable testin
+  Path: test
+  MainIs: main.test.ml
+  Build$: flag(tests)
+  CompiledObject: best
+  Install: false
+  BuildTools: ocamlbuild
+  BuildDepends: oUnit
+
+Test "suburi_ocaml_test"
+  Run$: flag(tests)
+  TestTools: testing
+  Command: $testing
+  WorkingDirectory: test
