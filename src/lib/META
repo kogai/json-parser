@@ -1,0 +1,11 @@
+# OASIS_START
+# DO NOT EDIT (digest: 45ebf0b2ba007bf3b9e211c0369e5e1f)
+version = "0.1.0"
+description = "try oasis"
+archive(byte) = "token.cma"
+archive(byte, plugin) = "token.cma"
+archive(native) = "token.cmxa"
+archive(native, plugin) = "token.cmxs"
+exists_if = "token.cma"
+# OASIS_STOP
+
