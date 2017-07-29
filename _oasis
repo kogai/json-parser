@@ -5,15 +5,12 @@ Synopsis:    try oasis
 Authors:     shinchi-kogai
 License:     MIT
 Plugins:     META (0.4), StdFiles (0.4), DevFiles (0.4)
+AlphaFeatures:    stdfiles_markdown
 
 Executable main
   Path:       src
   BuildTools: ocamlbuild
   MainIs:     main.ml
-
-Test test_main
-  TestTools: main
-  Command: $main
 
 Executable test_lib
   Path: test
@@ -22,7 +19,7 @@ Executable test_lib
   Build$: flag(tests)
   CompiledObject: best
   Install: false
-  BuildDepends: oUnit
+  BuildDepends: oUnit lib_token
 
 Test test_lib
   Run$: flag(tests)

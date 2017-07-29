@@ -1,5 +1,5 @@
-(* OASIS_START *)
-(* DO NOT EDIT (digest: 1ef5f82acec79767c2d173c62efcba48) *)
+<!--- OASIS_START --->
+<!--- DO NOT EDIT (digest: 779af18242792fb7d3cba294647cd926) --->
 
 This is the INSTALL file for the suburi-ocaml distribution.
 
@@ -13,7 +13,7 @@ In order to compile this package, you will need:
 
 * ocaml
 * findlib
-* oUnit for executable test_lib
+* oUnit lib_token for executable test_lib
 
 Installing
 ==========
@@ -36,4 +36,4 @@ OASIS is a program that generates a setup.ml file using a simple '_oasis'
 configuration file. The generated setup only depends on the standard OCaml
 installation: no additional library is required.
 
-(* OASIS_STOP *)
+<!--- OASIS_STOP --->
