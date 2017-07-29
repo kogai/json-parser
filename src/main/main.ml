@@ -1,4 +1,4 @@
-use Token
+open Token
 
 let read_line_of_file ic = 
   try
@@ -16,4 +16,4 @@ let read_json file_name =
   read_file (open_in file_name)
 
 (* let () = print_endline @@ read_json "fixture.json" *)
-let () = "fixture.json" |> read_json |> print_endline
+(* let () = "fixture.json" |> read_json |> print_endline *)

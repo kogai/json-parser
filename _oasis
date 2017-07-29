@@ -7,10 +7,10 @@ License:     MIT
 Plugins:     META (0.4), StdFiles (0.4), DevFiles (0.4)
 AlphaFeatures:    stdfiles_markdown
 
-Executable main
-  Path:       src
+Library token
+  Path: src/lib
   BuildTools: ocamlbuild
-  MainIs:     main.ml
+  Modules: Token
 
 Executable test_lib
   Path: test
@@ -19,7 +19,9 @@ Executable test_lib
   Build$: flag(tests)
   CompiledObject: best
   Install: false
-  BuildDepends: oUnit lib_token
+  BuildDepends:
+    oUnit,
+    token
 
 Test test_lib
   Run$: flag(tests)
@@ -27,3 +29,9 @@ Test test_lib
   Command: $test_lib
   WorkingDirectory: test
 
+Executable main
+  Path:       src/main
+  BuildTools: ocamlbuild
+  MainIs:     main.ml
+  BuildDepends:
+    token
