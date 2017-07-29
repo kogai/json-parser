@@ -38,6 +38,17 @@ struct
   type column = int
   type token = token_type * line * column
 
+  let trim_head s =
+    String.sub s 1 ((String.length s) - 1)
+
+  let rec tokenize = function
+    (*skip_white_space  *)
+    (* | " " -> tokenize  *)
+    | _ -> ((String "ok", 10, 14), "残りの文字列") 
+
+  let rec parse = function
+    | _ -> true
+
   type json =
     | String of string
     | Number of float

@@ -13,4 +13,5 @@ let rec read_file ic =
 let read_json file_name =
   read_file (open_in file_name)
 
-let () = print_endline (read_json "fixture.json")
+(* let () = print_endline @@ read_json "fixture.json" *)
+let () = "fixture.json" |> read_json |> print_endline

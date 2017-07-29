@@ -1,10 +1,10 @@
 opam-version: "1.2"
 name: "suburi-ocaml"
 version: "~0.1"
-maintainer: "shinichi kogai <kogai0121@gmail.com>"
-authors: "shinichi kogai <kogai0121@gmail.com>"
-homepage: ""
-bug-reports: ""
+maintainer: "小飼慎一 <kogai0121@gmail.com>"
+authors: "小飼慎一 <kogai0121@gmail.com>"
+homepage: "dummy"
+bug-reports: "dummy"
 license: "MIT"
 dev-repo: "git@github.com:kogai/suburi-ocaml.git"
 build: [
@@ -14,5 +14,5 @@ build: [
 install: [make "install"]
 remove: ["ocamlfind" "remove" "suburi-ocaml"]
 depends: [
-  "ocamlfind" {build}
+  "ocamlfind"
 ]
