@@ -8,7 +8,6 @@ bug-reports: "dummy"
 license: "MIT"
 dev-repo: "git@github.com:kogai/suburi-ocaml.git"
 build: [
-  ["./configure" "--prefix=%{prefix}%"]
   [make]
 ]
 install: [make "install"]
