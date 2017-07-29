@@ -1,0 +1,32 @@
+OASISFormat: 0.4
+Name:        suburi-ocaml
+Version:     0.1.0
+Synopsis:    try oasis
+Authors:     shinchi-kogai
+License:     MIT
+Plugins:     META (0.4), StdFiles (0.4), DevFiles (0.4)
+
+Executable main
+  Path:       src
+  BuildTools: ocamlbuild
+  MainIs:     main.ml
+
+Test test_main
+  TestTools: main
+  Command: $main
+
+Executable test_lib
+  Path: test
+  MainIs: test_main.ml
+  BuildTools: ocamlbuild
+  Build$: flag(tests)
+  CompiledObject: best
+  Install: false
+  BuildDepends: oUnit
+
+Test test_lib
+  Run$: flag(tests)
+  TestTools: test_lib
+  Command: $test_lib
+  WorkingDirectory: test
+
