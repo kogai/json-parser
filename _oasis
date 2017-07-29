@@ -11,17 +11,6 @@ Executable main
   BuildTools: ocamlbuild
   MainIs:     main.ml
 
-Executable "suburi_ocaml_test"
-  Path: test
-  MainIs: main.test.ml
-  Build$: flag(tests)
-  CompiledObject: best
-  Install: false
-  BuildTools: ocamlbuild
-  BuildDepends: oUnit
-
-Test "suburi_ocaml_test"
-  Run$: flag(tests)
-  TestTools: suburi_ocaml_test
-  Command: $suburi_ocaml_test
-  WorkingDirectory: test
+Test test_main
+  TestTools: main
+  Command: $main
