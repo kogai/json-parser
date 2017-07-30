@@ -1,4 +1,4 @@
-type tt =
+type t =
   | LBrace
   | RBrace
   | LBracket
@@ -37,10 +37,6 @@ let from_str = function
   | s when is_digit s -> NumberT (float_of_string s)
   | s -> StringT s
 
-type line = int
-type column = int
-type token = tt * line * column
-
 let head s =
   String.sub s 0 1
 
@@ -74,7 +70,7 @@ let read_identifier predicate xs =
   let rest = drop xs @@ String.length result in
   (Some (from_str result), rest)
 
-let tokenize s =
+let token s =
   let impl = function
     | [] -> (None, [])
     | " "::xs | "\n"::xs -> (None, xs)
@@ -84,14 +80,3 @@ let tokenize s =
     | x::xs -> (Some (from_str x), xs) in
   let (tkn, rest) = impl @@ to_list s in
   (tkn, String.concat "" rest)
-
-let rec parse = function
-  | _ -> true
-
-type json =
-  | String of string
-  | Number of float
-  | Object of (string * json) list
-  | Array of json list
-  | Bool of bool
-  | Null
