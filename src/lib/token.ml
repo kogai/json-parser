@@ -49,20 +49,6 @@ let rec to_list = function
   | "" -> []
   | s -> (head s)::(to_list @@ tail s)
 
-(* let rec take xs = function
-   | 0 -> []
-   | n ->
-    match xs with
-    | [] -> []
-    | y::ys -> y::take ys (n - 1)
-
-   let rec drop xs = function
-   | 0 -> xs
-   | n ->
-    match xs with
-    | [] -> []
-    | y::ys -> drop ys (n - 1) *)
-
 let read_identifier predicate xs =
   let rec read = function
     | [] -> ""
@@ -74,7 +60,7 @@ let read_identifier predicate xs =
 
 let token s =
   let impl = function
-    | [] -> (None, [])
+    | [] -> (Some EOF, [])
     | " "::xs | "\n"::xs -> (None, xs)
     | x::xs when is_digit x || x = "-" -> read_identifier is_digit (x::xs)
     | x::xs when is_letter x -> read_identifier is_letter (x::xs)

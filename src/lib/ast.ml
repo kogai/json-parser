@@ -6,5 +6,5 @@ type t =
   | BoolT of bool
   | NullT
 
-let parse s = 
-  s
+let parse s =
+  NullT

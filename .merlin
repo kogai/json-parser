@@ -3,5 +3,5 @@ S test
 
 B _build/**
 
-PKG ounit, extlib
+PKG ounit extlib
 

@@ -9,8 +9,12 @@ let specs = [
   "it should tokenize string" >:: (fun ctx -> assert_equal ((Some (StringT "foo")), "") @@ token "\"foo\""); 
   "it should tokenize bool" >:: (fun ctx -> assert_equal ((Some (BoolT true)), "") @@ token "true"); 
   "it should tokenize number" >:: (fun ctx -> assert_equal ((Some (NumberT 100.0)), "") @@ token "100");
-  (* "it should parse object" >:: (fun ctx -> assert_equal (Some Object) @@ parse "{ \"foo\": \"bar\" }"); *)
-  (* "it should parse array" >:: (fun ctx -> assert_equal ((Some (NumberT 100.0)), "") @@ token "100"); *)
+  "it should tokenize number" >:: (fun ctx -> assert_equal ((Some EOF), "") @@ token "");
+  "it should parse object" >:: (fun ctx ->
+      let expect = Ast.ObjectT [("foo", (Ast.StringT "bar"))] in
+      let actual = Ast.parse "{ \"foo\": \"bar\" }" in
+      assert_equal expect actual
+    ); 
 ]
 
 (* Name the test cases and group them together *)
