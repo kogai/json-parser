@@ -1,3 +1,5 @@
+open ExtLib.List
+
 type t =
   | LBrace
   | RBrace
@@ -38,28 +40,28 @@ let from_str = function
   | s -> StringT s
 
 let head s =
-  String.sub s 0 1
+  String.sub s 0 1 
 
 let tail s =
-  String.sub s 1 @@ (s |> String.length |> pred)
+  String.sub s 1 @@ (s |> String.length |> pred) 
 
 let rec to_list = function
   | "" -> []
   | s -> (head s)::(to_list @@ tail s)
 
-let rec take xs = function
-  | 0 -> []
-  | n ->
+(* let rec take xs = function
+   | 0 -> []
+   | n ->
     match xs with
     | [] -> []
     | y::ys -> y::take ys (n - 1)
 
-let rec drop xs = function
-  | 0 -> xs
-  | n ->
+   let rec drop xs = function
+   | 0 -> xs
+   | n ->
     match xs with
     | [] -> []
-    | y::ys -> drop ys (n - 1)
+    | y::ys -> drop ys (n - 1) *)
 
 let read_identifier predicate xs =
   let rec read = function
@@ -67,7 +69,7 @@ let read_identifier predicate xs =
     | x::xs when not @@ predicate x -> ""
     | x::xs -> x ^ read xs in
   let result = read xs in
-  let rest = drop xs @@ String.length result in
+  let rest = drop (String.length result) xs in
   (Some (from_str result), rest)
 
 let token s =
@@ -76,7 +78,7 @@ let token s =
     | " "::xs | "\n"::xs -> (None, xs)
     | x::xs when is_digit x || x = "-" -> read_identifier is_digit (x::xs)
     | x::xs when is_letter x -> read_identifier is_letter (x::xs)
-    | x::xs when x = "\"" -> read_identifier is_letter @@ take xs ((List.length xs) -1)
+    | x::xs when x = "\"" -> read_identifier is_letter @@ take ((List.length xs) - 1) xs
     | x::xs -> (Some (from_str x), xs) in
   let (tkn, rest) = impl @@ to_list s in
   (tkn, String.concat "" rest)
