@@ -12,9 +12,11 @@ let specs = [
   "it should tokenize number" >:: (fun ctx -> assert_equal ((Some EOF), "") @@ token "");
   "it should parse object" >:: (fun ctx ->
       let expect = Ast.ObjectT [("foo", (Ast.StringT "bar"))] in
-      let actual = Ast.parse "{ \"foo\": \"bar\" }" in
+      let actual = Ast.parse "{\"foo\":\"bar\"}" in
       assert_equal expect actual
     ); 
+  (* parse array *)
+  (* parse nested object *)
 ]
 
 (* Name the test cases and group them together *)
