@@ -13,6 +13,7 @@ Library json
   Path: src/lib
   Install: false
   BuildDepends:
+    extlib,
     str
 
 Executable main
