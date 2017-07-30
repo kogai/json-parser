@@ -6,7 +6,7 @@ type tt =
   | StringT of string
   | NumberT of float
   | BoolT of bool
-  | Null
+  | NullT
   | Colon
   | Comma
   | Illegal
@@ -19,7 +19,11 @@ let is_digit s =
   with Failure e ->
     false
 
-let from_char = function
+let is_letter s =
+  let rgx = Str.regexp "[A-Za-z]" in
+  Str.string_match rgx s 0
+
+let from_str = function
   | "{" -> LBrace
   | "}" -> RBrace
   | "[" -> LBracket
@@ -27,6 +31,7 @@ let from_char = function
   | ":" -> Colon
   | "," -> Comma
   | "" -> EOF
+  | "null" -> NullT
   | "true" -> BoolT true
   | "false" -> BoolT false
   | s when is_digit s -> NumberT (float_of_string s)
@@ -46,7 +51,12 @@ let rec to_list = function
   | "" -> []
   | s -> (head s)::(to_list @@ tail s)
 
-(* let rec split_at = function *)
+let rec take xs = function
+  | 0 -> []
+  | n ->
+    match xs with
+    | [] -> []
+    | y::ys -> y::take ys (n - 1)
 
 let rec drop xs = function
   | 0 -> xs
@@ -55,26 +65,25 @@ let rec drop xs = function
     | [] -> []
     | y::ys -> drop ys (n - 1)
 
-let read_number xs = 
-  let rec rn = function
-    | [] -> []
-    | x::xs when not @@ is_digit x -> []
-    | x::xs -> x::rn xs in
-  let result = rn xs |> String.concat "" in
+let read_identifier predicate xs =
+  let rec read = function
+    | [] -> ""
+    | x::xs when not @@ predicate x -> ""
+    | x::xs -> x ^ read xs in
+  let result = read xs in
   let rest = drop xs @@ String.length result in
-  (Some (from_char result), rest)
-
-let rec tokenize_impl = function
-  (*read_string  *)
-  | " "::xs | "\n"::xs -> (None, xs)
-  | x::xs when is_digit x || x == "-" -> read_number (x::xs)
-  | xs -> (None, xs) (* for avoiding warn *)
-
-(* | " " -> (None, trim_head s) *)
-(* | _ -> ((String "ok", 10, 14), "残りの文字列")    *)
+  (Some (from_str result), rest)
 
 let tokenize s =
-  tokenize_impl @@ to_list s
+  let impl = function
+    | [] -> (None, [])
+    | " "::xs | "\n"::xs -> (None, xs)
+    | x::xs when is_digit x || x = "-" -> read_identifier is_digit (x::xs)
+    | x::xs when is_letter x -> read_identifier is_letter (x::xs)
+    | x::xs when x = "\"" -> read_identifier is_letter @@ take xs ((List.length xs) -1)
+    | x::xs -> (Some (from_str x), xs) in
+  let (tkn, rest) = impl @@ to_list s in
+  (tkn, String.concat "" rest)
 
 let rec parse = function
   | _ -> true

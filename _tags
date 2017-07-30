@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 830ad050ca70020f00e53fe75fa3970d)
+# DO NOT EDIT (digest: ecf9ef9ac457a3b2eb8524fe11e100e0)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -16,12 +16,17 @@ true: annot, bin_annot
 "_darcs": not_hygienic
 # Library token
 "src/lib/token.cmxs": use_token
+<src/lib/*.ml{,i,y}>: pkg_str
 # Executable main
+"src/main/main.byte": pkg_str
 "src/main/main.byte": use_token
+<src/main/*.ml{,i,y}>: pkg_str
 <src/main/*.ml{,i,y}>: use_token
 # Executable test_lib
 <test/test_main.{native,byte}>: pkg_oUnit
+<test/test_main.{native,byte}>: pkg_str
 <test/test_main.{native,byte}>: use_token
 <test/*.ml{,i,y}>: pkg_oUnit
+<test/*.ml{,i,y}>: pkg_str
 <test/*.ml{,i,y}>: use_token
 # OASIS_STOP

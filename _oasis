@@ -12,6 +12,8 @@ Library token
   Modules: Token
   Path: src/lib
   Install: false
+  BuildDepends:
+    str
 
 Executable main
   Path:       src/main
