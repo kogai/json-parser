@@ -30,6 +30,7 @@ Executable test_lib
   Install: false
   BuildDepends:
     oUnit,
+    extlib,
     json
 
 Test test_lib

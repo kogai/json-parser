@@ -13,6 +13,7 @@ let specs = [
   "it should parse object" >:: (fun ctx ->
       let expect = Ast.ObjectT [("foo", (Ast.StringT "bar"))] in
       let actual = Ast.parse "{\"foo\":\"bar\"}" in
+      Printf.printf "\nACTUAL is -> %s\n" (ExtLib.dump expect);
       assert_equal expect actual
     ); 
   (* parse array *)
