@@ -12,6 +12,7 @@ type t =
   | Colon
   | Comma
   | Illegal
+  (* | Quote *)
   | EOF
 
 let is_digit s =
@@ -32,6 +33,7 @@ let from_str = function
   | "]" -> RBracket
   | ":" -> Colon
   | "," -> Comma
+  (* | "\"" -> Quote *)
   | "" -> EOF
   | "null" -> NullT
   | "true" -> BoolT true
@@ -55,7 +57,8 @@ let read_identifier predicate xs =
     | x::xs when not @@ predicate x -> ""
     | x::xs -> x ^ read xs in
   let result = read xs in
-  let rest = drop (String.length result) xs in
+  let length_of_identifier = (String.length result) + 1 in
+  let rest = drop length_of_identifier xs in
   (Some (from_str result), rest)
 
 let token s =
@@ -64,7 +67,7 @@ let token s =
     | " "::xs | "\n"::xs -> (None, xs)
     | x::xs when is_digit x || x = "-" -> read_identifier is_digit (x::xs)
     | x::xs when is_letter x -> read_identifier is_letter (x::xs)
-    | x::xs when x = "\"" -> read_identifier is_letter @@ take ((List.length xs) - 1) xs
+    | x::xs when x = "\"" -> read_identifier is_letter @@ xs
     | x::xs -> (Some (from_str x), xs) in
   let (tkn, rest) = impl @@ to_list s in
   (tkn, String.concat "" rest)

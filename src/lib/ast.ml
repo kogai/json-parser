@@ -18,27 +18,20 @@ let rec parse_array s container =
 
 let rec parse_object s container = 
   let (k, s1) = Token.token s in
+
   match k with
   | Some Token.StringT key ->
     let (_, s2) = Token.token s1 in (* drop colon *)
     let (v, s3) = Token.token s2 in
-
     (match v with
-     | Some Token.BoolT value ->
-       (* let result = (key, BoolT x) in *)
-       let result = add key (BoolT value) container in
-       (* NullT *)
-       result
-     | Some Token.StringT x -> NullT
-     | Some Token.NumberT x -> NullT
+     | Some Token.BoolT value -> add key (BoolT value) container
+     | Some Token.StringT value -> add key (StringT value) container
+     | Some Token.NumberT value -> add key (NumberT value) container
+     | Some Token.NullT -> NullT
+     | Some Token.LBrace -> parse_object s3 (ObjectT [])
+     | Some Token.LBracket -> parse_array s3 (ArrayT [])
      | Some x -> NullT
      | None -> NullT)
-
-  (* (key, v) *)
-  (* (match k with
-     | Some (Token.StringT key) -> ObjectT [(key, parse s3)]
-     | x -> raise @@ InvaidToken x)  *)
-  (* NullT *)
   | x -> raise @@ InvaidToken x
 
 let rec parse s =
