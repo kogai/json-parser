@@ -23,16 +23,19 @@ let rec parse_object s container =
   | Some Token.StringT key ->
     let (_, s2) = Token.token s1 in (* drop colon *)
     let (v, s3) = Token.token s2 in
-    (match v with
-     | Some Token.BoolT value -> add key (BoolT value) container
-     | Some Token.StringT value -> add key (StringT value) container
-     | Some Token.NumberT value -> add key (NumberT value) container
-     | Some Token.NullT -> NullT
-     | Some Token.LBrace -> parse_object s3 (ObjectT [])
-     | Some Token.LBracket -> parse_array s3 (ArrayT [])
-     | Some x -> NullT
-     | None -> NullT)
-  | x -> raise @@ InvaidToken x
+    let value = match v with
+      | Some Token.BoolT value -> BoolT value
+      | Some Token.StringT value -> StringT value
+      | Some Token.NumberT value -> NumberT value 
+      | Some Token.NullT -> NullT
+      | Some Token.LBrace -> parse_object s3 (ObjectT [])
+      | Some Token.LBracket -> parse_array s3 (ArrayT [])
+      | x -> raise @@ InvaidToken x in
+    let key_value_pair = add key value container in
+    (match Token.token s3 with
+     | (Some Token.Comma, s4) -> parse_object s4 key_value_pair
+     | x -> key_value_pair)
+  | x -> raise @@ InvaidToken x 
 
 let rec parse s =
   let (token, s1) = Token.token s in
@@ -47,8 +50,4 @@ let rec parse s =
   | Some Token.LBrace -> parse_object s1 root
   | Some Token.LBracket -> parse_array s1 root
   | Some Token.EOF -> NullT 
-  (* Token.StringT *)
-  (* Token.NumberT *)
-  (* Token.BoolT *)
-  (* Token.Comma *)
   | x -> raise @@ InvaidToken x 

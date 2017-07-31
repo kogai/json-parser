@@ -12,7 +12,6 @@ type t =
   | Colon
   | Comma
   | Illegal
-  (* | Quote *)
   | EOF
 
 let is_digit s =
@@ -33,7 +32,6 @@ let from_str = function
   | "]" -> RBracket
   | ":" -> Colon
   | "," -> Comma
-  (* | "\"" -> Quote *)
   | "" -> EOF
   | "null" -> NullT
   | "true" -> BoolT true
