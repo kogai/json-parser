@@ -1,12 +1,14 @@
-type token_type =
+open ExtLib.List
+
+type t =
   | LBrace
   | RBrace
   | LBracket
   | RBracket
-  | String of string
-  | Number of float
-  | Bool of bool
-  | Null
+  | StringT of string
+  | NumberT of float
+  | BoolT of bool
+  | NullT
   | Colon
   | Comma
   | Illegal
@@ -14,12 +16,16 @@ type token_type =
 
 let is_digit s =
   try
-    ignore (float_of_string s);
+    ignore @@ float_of_string s;
     true
   with Failure e ->
     false
 
-let from_char = function
+let is_letter s =
+  let rgx = Str.regexp "[A-Za-z]" in
+  Str.string_match rgx s 0
+
+let from_str = function
   | "{" -> LBrace
   | "}" -> RBrace
   | "[" -> LBracket
@@ -27,30 +33,39 @@ let from_char = function
   | ":" -> Colon
   | "," -> Comma
   | "" -> EOF
-  | "true" -> Bool true
-  | "false" -> Bool false
-  | s when is_digit s -> Number (float_of_string s)
-  | s -> String s
+  | "null" -> NullT
+  | "true" -> BoolT true
+  | "false" -> BoolT false
+  | s when is_digit s -> NumberT (float_of_string s)
+  | s -> StringT s
 
-type line = int
-type column = int
-type token = token_type * line * column
+let head s =
+  String.sub s 0 1 
 
-let trim_head s =
-  String.sub s 1 ((String.length s) - 1)
+let tail s =
+  String.sub s 1 @@ (s |> String.length |> pred) 
 
-let rec tokenize = function
-  (*skip_white_space  *)
-  (* | " " -> tokenize  *)
-  | _ -> ((String "ok", 10, 14), "残りの文字列") 
+let rec to_list = function
+  | "" -> []
+  | s -> (head s)::(to_list @@ tail s)
 
-let rec parse = function
-  | _ -> true
+let read_identifier is_string predicate xs =
+  let rec read = function
+    | [] -> ""
+    | x::xs when not @@ predicate x -> ""
+    | x::xs -> x ^ read xs in
+  let result = read xs in
+  let length_of_identifier = (String.length result) + (if is_string then 1 else 0) in
+  let rest = drop length_of_identifier xs in
+  (Some (from_str result), rest)
 
-type json =
-  | String of string
-  | Number of float
-  | Object of (string * json) list
-  | Array of json list
-  | Bool of bool
-  | Null
+let token s =
+  let impl = function
+    | [] -> (Some EOF, [])
+    | " "::xs | "\n"::xs -> (None, xs)
+    | x::xs when is_digit x || x = "-" -> read_identifier false is_digit (x::xs)
+    | x::xs when is_letter x -> read_identifier false is_letter (x::xs)
+    | x::xs when x = "\"" -> read_identifier true is_letter @@ xs
+    | x::xs -> (Some (from_str x), xs) in
+  let (tkn, rest) = impl @@ to_list s in
+  (tkn, String.concat "" rest)

@@ -8,16 +8,19 @@ Plugins:     StdFiles (0.4)
 AlphaFeatures:    stdfiles_markdown
 BuildTools: ocamlbuild
 
-Library token
-  Modules: Token
+Library json
+  Modules: Token, Ast
   Path: src/lib
   Install: false
+  BuildDepends:
+    extlib,
+    str
 
 Executable main
   Path:       src/main
   MainIs:     main.ml
   BuildDepends:
-    token
+    json
 
 Executable test_lib
   Path: test
@@ -27,7 +30,8 @@ Executable test_lib
   Install: false
   BuildDepends:
     oUnit,
-    token
+    extlib,
+    json
 
 Test test_lib
   Run$: flag(tests)
