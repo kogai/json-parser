@@ -1,7 +1,7 @@
 {
   "title": "Cities",
   "cities": [{
-    "name": "New York",
+    "name": "NewYork",
     "digit": [999]
   }, {
     "name": "Washington",

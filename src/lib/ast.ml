@@ -9,7 +9,7 @@ type t =
 exception InvaidToken of Token.t option
 
 let add k v = function
-  | ObjectT xs -> ObjectT ((k, v)::xs)
+  | ObjectT xs -> ObjectT (ExtLib.List.append xs [(k, v)])
   | ArrayT xs -> ArrayT (ExtLib.List.append xs [v])
   | _ -> NullT
 
@@ -60,3 +60,18 @@ let rec parse source =
   | Some Token.LBracket -> parse_array rest root
   | Some Token.EOF -> NullT 
   | x -> raise @@ InvaidToken x 
+
+let read_line_of_file ic = 
+  try
+    Some (input_line ic)
+  with End_of_file ->
+    close_in ic;
+    None
+
+let rec read_file ic =
+  match (read_line_of_file ic) with
+  | Some line -> line ^ "\n" ^  (read_file ic)
+  | None -> ""
+
+let read_json file_name =
+  read_file (open_in file_name)
