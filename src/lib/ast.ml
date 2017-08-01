@@ -33,13 +33,9 @@ let rec parse_array source container =
   let value = parse_value rest v in
   let value_container = add "" value container in
 
-  ExtLib.print value;
-  
   match Token.token rest with
   | (Some Token.Comma, s) -> parse_array s value_container
-  | x ->
-    (* print_endline rest; *)
-    value_container
+  | x -> value_container
 
 and parse_object source container = 
   let (k, s1) = Token.token source in

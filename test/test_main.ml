@@ -2,7 +2,7 @@ open Token
 open OUnit2
 
 let specs = [
-  (* "it should detect digit" >:: (fun ctx -> assert_equal true (is_digit "100"));
+   "it should detect digit" >:: (fun ctx -> assert_equal true (is_digit "100"));
      "it should detect string" >:: (fun ctx -> assert_equal false (is_digit "string"));
      "it should trim head of string" >:: (fun ctx -> assert_equal "first" @@ tail " first");
      "it should tokenize" >:: (fun ctx -> assert_equal ((Some LBrace), "}") @@ token "{}"); 
@@ -16,16 +16,16 @@ let specs = [
       assert_equal expect actual
      ); 
      "it should parse nested object" >:: (fun ctx ->
-      let expect = Ast.ObjectT [("bar", (Ast.StringT "buzz")); ("foo", (Ast.StringT "bar"))] in
+      let expect = Ast.ObjectT [("foo", (Ast.StringT "bar"));("bar", (Ast.StringT "buzz"))] in
       let actual = Ast.parse "{\"foo\":\"bar\",\"bar\":\"buzz\"}" in
       assert_equal expect actual
-     );   *)
-  (* "it should parse array" >:: (fun ctx ->
+     );   
+   "it should parse array" >:: (fun ctx ->
       let expect = Ast.ArrayT [Ast.NumberT 100.0; Ast.NumberT 200.0] in
       let actual = Ast.parse "[100,200]" in
       assert_equal expect actual
-     );  *)
-  "feature test" >:: (fun ctx ->
+     );  
+  (* "feature test" >:: (fun ctx ->
       let expect = Ast.ObjectT [
           ("title", Ast.StringT "Cities");
           ("cities",
@@ -43,11 +43,9 @@ let specs = [
         ] in
       let actual = Ast.parse (Ast.read_json "fixture.json") in 
       (* ExtLib.print expect; *)
-       ExtLib.print actual;  
+       (* ExtLib.print actual;   *)
       assert_equal expect actual 
-    ); 
-    (*
-  *)
+    );  *)
 ]
 
 (* Name the test cases and group them together *)
