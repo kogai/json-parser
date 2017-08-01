@@ -17,4 +17,4 @@ _build/
 
 setup.data
 setup.log
-
+.opam

@@ -1,41 +1,32 @@
-# OASIS_START
-# DO NOT EDIT (digest: a3c674b4239234cbbe53afe090018954)
+# OPAMROOT=$(PWD)/.opam
 
-SETUP = ocaml setup.ml
+# build: setup.data
+# 	$(SETUP) -build $(BUILDFLAGS)
 
-build: setup.data
-	$(SETUP) -build $(BUILDFLAGS)
+# test: setup.data build
+# 	$(SETUP) -test $(TESTFLAGS)
 
-doc: setup.data build
-	$(SETUP) -doc $(DOCFLAGS)
+# all:
+# 	$(SETUP) -all $(ALLFLAGS)
+env:
+	export OPAMROOT=$(PWD)/.opam
 
-test: setup.data build
-	$(SETUP) -test $(TESTFLAGS)
+install: env
+	OPAMROOT=$(PWD)/.opam \
+	opam install -y \
+	sedlex \
+	ounit \
+	extlib
 
-all:
-	$(SETUP) -all $(ALLFLAGS)
+# clean:
+# 	$(SETUP) -clean $(CLEANFLAGS)
 
-install: setup.data
-	$(SETUP) -install $(INSTALLFLAGS)
+echo:
+	echo $(OPAMROOT)
 
-uninstall: setup.data
-	$(SETUP) -uninstall $(UNINSTALLFLAGS)
+init: env
+	opam init -ya --root $(OPAMROOT)
+	eval `opam config env`
+	opam pin add ocaml-suburi . -y
 
-reinstall: setup.data
-	$(SETUP) -reinstall $(REINSTALLFLAGS)
-
-clean:
-	$(SETUP) -clean $(CLEANFLAGS)
-
-distclean:
-	$(SETUP) -distclean $(DISTCLEANFLAGS)
-
-setup.data:
-	$(SETUP) -configure $(CONFIGUREFLAGS)
-
-configure:
-	$(SETUP) -configure $(CONFIGUREFLAGS)
-
-.PHONY: build doc test all install uninstall reinstall clean distclean configure
-
-# OASIS_STOP
+# .PHONY: 
