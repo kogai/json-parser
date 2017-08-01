@@ -41,8 +41,10 @@ let specs = [
            ]);
           ("nagative", Ast.NumberT (float_of_int (~- 100)));
         ] in
-      let actual = Ast.parse (Ast.read_json "fixture.json") in
-      assert_equal expect actual
+      let actual = Ast.parse (Ast.read_json "fixture.json") in 
+      (* ExtLib.print expect; *)
+       ExtLib.print actual;  
+      assert_equal expect actual 
     ); 
     (*
   *)

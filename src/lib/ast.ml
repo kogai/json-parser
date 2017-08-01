@@ -1,3 +1,18 @@
+let read_line_of_file ic = 
+  try
+    Some (input_line ic)
+  with End_of_file ->
+    close_in ic;
+    None
+
+let rec read_file ic =
+  match (read_line_of_file ic) with
+  | Some line -> line ^ "\n" ^  (read_file ic)
+  | None -> ""
+
+let read_json file_name =
+  read_file (open_in file_name)
+
 type t =
   | StringT of string
   | NumberT of float
@@ -18,9 +33,13 @@ let rec parse_array source container =
   let value = parse_value rest v in
   let value_container = add "" value container in
 
+  ExtLib.print value;
+  
   match Token.token rest with
   | (Some Token.Comma, s) -> parse_array s value_container
-  | x -> value_container
+  | x ->
+    (* print_endline rest; *)
+    value_container
 
 and parse_object source container = 
   let (k, s1) = Token.token source in
@@ -60,18 +79,3 @@ let rec parse source =
   | Some Token.LBracket -> parse_array rest root
   | Some Token.EOF -> NullT 
   | x -> raise @@ InvaidToken x 
-
-let read_line_of_file ic = 
-  try
-    Some (input_line ic)
-  with End_of_file ->
-    close_in ic;
-    None
-
-let rec read_file ic =
-  match (read_line_of_file ic) with
-  | Some line -> line ^ "\n" ^  (read_file ic)
-  | None -> ""
-
-let read_json file_name =
-  read_file (open_in file_name)

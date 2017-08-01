@@ -9,3 +9,4 @@
   }],
   "negative": -100
 }
+// {"title":"Cities","cities":[{"name":"NewYork","digit":[999]},{"name":"Washington","digit":[888]}],"negative":-100}
