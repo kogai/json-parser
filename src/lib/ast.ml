@@ -9,9 +9,8 @@ type t =
 exception InvaidToken of Token.t option
 
 let add k v = function
-  (* TODO: snoc関数で結合する or Stack構造を使う  *)
   | ObjectT xs -> ObjectT ((k, v)::xs)
-  | ArrayT xs -> ArrayT (v::xs)
+  | ArrayT xs -> ArrayT (ExtLib.List.append xs [v])
   | _ -> NullT
 
 let rec parse_array source container =

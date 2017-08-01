@@ -57,7 +57,6 @@ let read_identifier is_string predicate xs =
   let result = read xs in
   let length_of_identifier = (String.length result) + (if is_string then 1 else 0) in
   let rest = drop length_of_identifier xs in
-  ExtLib.print rest;
   (Some (from_str result), rest)
 
 let token s =
