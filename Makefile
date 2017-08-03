@@ -1,32 +1,37 @@
-# OPAMROOT=$(PWD)/.opam
+OPAM=$(PWD)/.opam
 
-# build: setup.data
-# 	$(SETUP) -build $(BUILDFLAGS)
+build:install 
+	OPAMROOT=$(OPAM) \
+	ocamlbuild \
+		-use-ocamlfind -pkgs \
+		sedlex \
+		ounit \
+		extlib \
+		src/main/main.native
 
 # test: setup.data build
 # 	$(SETUP) -test $(TESTFLAGS)
 
 # all:
 # 	$(SETUP) -all $(ALLFLAGS)
-env:
-	export OPAMROOT=$(PWD)/.opam
 
-install: env
-	OPAMROOT=$(PWD)/.opam \
+init:
+	opam init -ya --root $(OPAM)
+	OPAMROOT=$(OPAM) \
+		opam switch 4.05.0+trunk
+	OPAMROOT=$(OPAM) \
+		eval `opam config env`
+
+	# OPAMROOT=$(OPAM) \
+	# 	opam pin add ocaml-suburi . -y
+
+install:init
+	OPAMROOT=$(OPAM) \
 	opam install -y \
+	ocamlfind \
 	sedlex \
 	ounit \
 	extlib
 
-# clean:
-# 	$(SETUP) -clean $(CLEANFLAGS)
-
-echo:
-	echo $(OPAMROOT)
-
-init: env
-	opam init -ya --root $(OPAMROOT)
-	eval `opam config env`
-	opam pin add ocaml-suburi . -y
-
-# .PHONY: 
+clean:
+	ocamlbuild -clean
