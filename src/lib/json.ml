@@ -5,5 +5,5 @@ type value = [
   | `StringT of string
   | `FloatT of float
   | `IntT of int
-  | `Null
+  | `NullT
 ]
