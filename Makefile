@@ -1,7 +1,7 @@
 OPAM=$(PWD)/.opam
 
 build:
-	ocamlbuild -use-ocamlfind -pkgs sedlex,ounit,extlib\
+	ocamlbuild -use-ocamlfind -pkgs sedlex,ounit,extlib,core\
 		src/main/main.native
 
 gen:
@@ -17,6 +17,7 @@ init:
 install:
 	opam update
 	opam install -y \
+		core \
 		ocamlfind \
 		sedlex \
 		ounit \

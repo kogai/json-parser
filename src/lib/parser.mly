@@ -31,6 +31,6 @@ value:
 object_fields:
   v = separated_list(COMMA, object_field) { v };
 object_field:
-  k = ID; COLON; v = value { (k, v) };
+  k = STRING; COLON; v = value { (k, v) };
 array_values:
   v = separated_list(COMMA, value) { v };
