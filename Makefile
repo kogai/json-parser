@@ -7,6 +7,10 @@ build:
 gen:
 	ocamlbuild -use-menhir src/lib/parser.mli
 
+tests:
+	ocamlbuild -use-menhir -tag thread -use-ocamlfind -quiet -pkg core src/lib/test.native
+	./test.native fixture.json
+
 # all:
 # 	$(SETUP) -all $(ALLFLAGS)
 

@@ -27,8 +27,8 @@ rule read =
   parse
   | white { read lexbuf }
   | newline { next_line lexbuf; read lexbuf }
-  | int { INT (int_of_string (Lexing.lexme lexbuf)) }
-  | float { FLOAT (int_of_string (Lexing.lexme lexbuf)) }
+  | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
+  | float { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
   | "true" { TRUE }
   | "false" { FALSE }
   | "null" { NULL }
@@ -39,11 +39,11 @@ rule read =
   | ']' { RBRACKET }
   | ':' { COLON }
   | ',' { COMMA }
-  | _ { raise (SyntaxError ("Unexpected character: " ^ Lexing.lexme lexbuf)) }
+  | _ { raise (SyntaxError ("Unexpected character: " ^ Lexing.lexeme lexbuf)) }
   | eof { EOF }
 and read_string buf =
   parse
-  | '"' { STRING (Buffer.contents.buf) }
+  | '"' { STRING (Buffer.contents buf) }
   | '\\' '/' { Buffer.add_char buf '/'; read_string buf lexbuf }
   | '\\' '\\' { Buffer.add_char buf '\\'; read_string buf lexbuf }
   | '\\' 'b' { Buffer.add_char buf '\b'; read_string buf lexbuf }
@@ -52,8 +52,8 @@ and read_string buf =
   | '\\' 'r' { Buffer.add_char buf '\r'; read_string buf lexbuf }
   | '\\' 't' { Buffer.add_char buf '\t'; read_string buf lexbuf }
   | [^ '"' '\\']+ {
-    Buffer.add_string buf (Lexing.lexme lexbuf);
+    Buffer.add_string buf (Lexing.lexeme lexbuf);
     read_string buf lexbuf
   }
-  | _ { raise (SyntaxError ("Illegal string charcter: " ^ Lexing.lexme lexbuf)) }
+  | _ { raise (SyntaxError ("Illegal string charcter: " ^ Lexing.lexeme lexbuf)) }
   | eof { raise (SyntaxError ("String is not terminated")) }
