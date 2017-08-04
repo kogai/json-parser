@@ -1,3 +1,5 @@
+open Core
+
 type value = [
   | `ObjectT of (string * value) list
   | `ArrayT of value list
@@ -8,7 +10,6 @@ type value = [
   | `NullT
 ]
 
-open Core
 let rec output_value outc = function
   | `ObjectT obj  -> print_assoc outc obj
   | `ArrayT l     -> print_list outc l

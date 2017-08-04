@@ -1,13 +1,13 @@
 OPAM=$(PWD)/.opam
 
 build:
-	ocamlbuild -use-ocamlfind -pkgs sedlex,ounit,extlib,core\
+	ocamlbuild -use-ocamlfind -tag thread -pkgs sedlex,ounit,extlib,core\
 		src/main/main.native
 
-gen:
-	ocamlbuild -use-menhir src/lib/parser.mli
+gen:build
+	ocamlbuild -use-menhir -pkg core src/lib/parser.mli
 
-tests:
+run:gen
 	ocamlbuild -use-menhir -tag thread -use-ocamlfind -quiet -pkg core src/lib/test.native
 	./test.native fixture.json
 

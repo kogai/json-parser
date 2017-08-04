@@ -20,7 +20,7 @@ let rec parse_and_print lexbuf =
   match parse_with_error lexbuf with
   | Some value ->
     printf "%a\n" Json.output_value value;
-    parse_and_print lexbuf
+    (* parse_and_print lexbuf *)
   | None -> ()
 
 let loop filename () =
