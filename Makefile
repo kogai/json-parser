@@ -1,41 +1,32 @@
-# OASIS_START
-# DO NOT EDIT (digest: a3c674b4239234cbbe53afe090018954)
+OPAM=$(PWD)/.opam
 
-SETUP = ocaml setup.ml
+build:
+	ocamlbuild -use-ocamlfind -tag thread -pkgs sedlex,ounit,extlib,core\
+		src/main/main.native
 
-build: setup.data
-	$(SETUP) -build $(BUILDFLAGS)
+gen:build
+	ocamlbuild -use-menhir -pkg core src/lib/parser.mli
 
-doc: setup.data build
-	$(SETUP) -doc $(DOCFLAGS)
+run:gen
+	ocamlbuild -use-menhir -tag thread -use-ocamlfind -quiet -pkg core src/lib/test.native
+	./test.native fixture.json
 
-test: setup.data build
-	$(SETUP) -test $(TESTFLAGS)
+# all:
+# 	$(SETUP) -all $(ALLFLAGS)
 
-all:
-	$(SETUP) -all $(ALLFLAGS)
+init:
+	opam init -ya --comp=4.03.0
+	eval `opam config env`
 
-install: setup.data
-	$(SETUP) -install $(INSTALLFLAGS)
-
-uninstall: setup.data
-	$(SETUP) -uninstall $(UNINSTALLFLAGS)
-
-reinstall: setup.data
-	$(SETUP) -reinstall $(REINSTALLFLAGS)
+install:
+	opam update
+	opam install -y \
+		core \
+		ocamlfind \
+		sedlex \
+		ounit \
+		menhir \
+		extlib
 
 clean:
-	$(SETUP) -clean $(CLEANFLAGS)
-
-distclean:
-	$(SETUP) -distclean $(DISTCLEANFLAGS)
-
-setup.data:
-	$(SETUP) -configure $(CONFIGUREFLAGS)
-
-configure:
-	$(SETUP) -configure $(CONFIGUREFLAGS)
-
-.PHONY: build doc test all install uninstall reinstall clean distclean configure
-
-# OASIS_STOP
+	ocamlbuild -clean

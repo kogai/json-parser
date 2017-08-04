@@ -1,8 +1,8 @@
 opam-version: "1.2"
-name: "suburi-ocaml"
-version: "~0.1"
-maintainer: "小飼慎一 <kogai0121@gmail.com>"
-authors: "小飼慎一 <kogai0121@gmail.com>"
+name: "ocaml-suburi"
+version: "~0.1.0"
+maintainer: "小飼慎一 <>"
+authors: "小飼慎一 <>"
 homepage: "dummy"
 bug-reports: "dummy"
 license: "MIT"
@@ -11,9 +11,10 @@ build: [
   [make]
 ]
 install: [make "install"]
-remove: ["ocamlfind" "remove" "suburi-ocaml"]
+remove: ["ocamlfind" "remove" "ocaml-suburi"]
 depends: [
-  "ocamlbuild" {build}
   "ocamlfind" {build}
-  "sedlex" { >= "1.99.4" }
+  "ounit"
+  "extlib"
+  "sedlex"
 ]
