@@ -4,12 +4,14 @@ open OUnit2
 let specs = [
   "it should parse object" >:: (fun ctx ->
       let expect = Json.(`ObjectT [("foo", (Json.(`StringT "bar")))]) in 
-      let actual = "{ \"foo\": \"bar\" }" |> Lexing.from_string |> Parser.prog Lexer.read in
+      let actual = "{ \"foo\": \"bar\" }"
+                   |> Lexing.from_string
+                   |> Parser.prog Lexer.read in
       match actual with
       | Some v ->  assert_equal expect v
       | _ -> assert false
     ); 
-
+  (* 
   "it should parse nested object" >:: (fun ctx ->
       let expect = Json.(`ObjectT [("foo", (Json.(`StringT "bar")));("bar", (Json.(`StringT "buzz")))]) in 
       let actual = "{ \"foo\": \"bar\",\"bar\": \"buzz\" }" |> Lexing.from_string |> Parser.prog Lexer.read in
@@ -44,7 +46,7 @@ let specs = [
       match actual with
       | Some v ->  assert_equal expect v
       | _ -> assert false
-    );  
+    );   *)
 ]
 
 (* Name the test cases and group them together *)
