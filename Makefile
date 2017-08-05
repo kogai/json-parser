@@ -6,6 +6,10 @@ build:native byte
 run:build
 	./main.native fixture.json
 
+test:
+	$(OCB) main_test.native
+	./main_test.native
+
 native:
 	$(OCB) main.native
 
@@ -19,11 +23,15 @@ init:
 install:
 	opam update
 	opam install -y \
+		ocp-indent \
+		ocp-index \
+		merlin \
 		core \
 		ocamlfind \
 		sedlex \
 		ounit \
 		menhir
+	opam user-setup install
 
 clean:
 	ocamlbuild -clean
