@@ -15,6 +15,5 @@ remove: ["ocamlfind" "remove" "ocaml-suburi"]
 depends: [
   "ocamlfind" {build}
   "ounit"
-  "extlib"
   "sedlex"
 ]

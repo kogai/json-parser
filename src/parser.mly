@@ -1,6 +1,5 @@
 %token <int> INT
 %token <float> FLOAT
-%token <string> ID
 %token <string> STRING
 %token TRUE
 %token FALSE
@@ -13,7 +12,7 @@
 %token COMMA
 %token EOF
 
-%start <Json.value option> prog
+%start <Json.t option> prog
 %%
 
 prog:

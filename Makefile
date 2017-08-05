@@ -1,18 +1,16 @@
-OPAM=$(PWD)/.opam
+OCB_FLAGS = -use-ocamlfind -use-menhir -I src -pkgs sedlex,ounit,core -tag thread
+OCB = ocamlbuild $(OCB_FLAGS)
 
-build:
-	ocamlbuild -use-ocamlfind -tag thread -pkgs sedlex,ounit,extlib,core\
-		src/main/main.native
+build:native byte
 
-gen:build
-	ocamlbuild -use-menhir -pkg core src/lib/parser.mli
+run:build
+	./main.native fixture.json
 
-run:gen
-	ocamlbuild -use-menhir -tag thread -use-ocamlfind -quiet -pkg core src/lib/test.native
-	./test.native fixture.json
+native:
+	$(OCB) main.native
 
-# all:
-# 	$(SETUP) -all $(ALLFLAGS)
+byte:
+	$(OCB) main.byte
 
 init:
 	opam init -ya --comp=4.03.0
@@ -25,8 +23,7 @@ install:
 		ocamlfind \
 		sedlex \
 		ounit \
-		menhir \
-		extlib
+		menhir
 
 clean:
 	ocamlbuild -clean
