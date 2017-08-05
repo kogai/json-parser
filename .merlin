@@ -2,5 +2,5 @@ S src/**
 
 B _build/**
 
-PKG ounit core
+PKG ounit core sedlex
 
