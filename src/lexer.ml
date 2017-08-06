@@ -41,4 +41,37 @@ let rec lex lexbuf =
   | eof -> EOF
   | _ -> raise (SyntaxError ("Unexpected character: " ^ Utf8.lexeme lexbuf))
 
-let read raw_lexbuf = lex raw_lexbuf
+type synthetic_lexbuf = {
+  stream: Sedlexing.lexbuf;
+  mutable position: Lexing.position;
+}
+
+let create_lexbuf ?(file = "") stream =
+  let position = {Lexing.
+                   pos_fname = file;
+                   pos_lnum = 1;
+                   pos_bol = 0;
+                   pos_cnum = 0;
+                 } in
+  { position; stream }
+
+let read lexbuf = 
+  (* let lexer () =
+     let ante_position = lexbuf.position in
+     let token = lexer' lexbuf in
+     let post_position = lexbuf.position
+     in (token, ante_position, post_position) in *)
+
+  let tokenizer () =
+    let dump = {Lexing.
+                 pos_fname = "";
+                 pos_lnum = 1;
+                 pos_bol = 0;
+                 pos_cnum = 0;
+               } in 
+    (EOF, dump, dump) in
+
+  let parser' = MenhirLib.Convert.Simplified.traditional2revised Parser.prog in 
+  (* raw_lexbuf *)
+  let read' = parser' tokenizer in
+  read'

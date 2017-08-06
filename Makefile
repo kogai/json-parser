@@ -1,4 +1,4 @@
-OCB_FLAGS = -use-ocamlfind -use-menhir -I src -pkgs 'sedlex,ounit,core' -tags thread
+OCB_FLAGS = -use-ocamlfind -use-menhir -I src -pkgs 'sedlex,ounit,core,menhirlib' -tags thread
 OCB = ocamlbuild $(OCB_FLAGS)
 
 build:native byte

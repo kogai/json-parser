@@ -6,7 +6,7 @@ let specs = [
       let expect = Json.(`ObjectT [("foo", (Json.(`StringT "bar")))]) in 
       let actual = "{ \"foo\": \"bar\" }"
                    |> Lexing.from_string
-                   |> Parser.prog Lexer.read in
+                   |> Lexer.read in
       match actual with
       | Some v ->  assert_equal expect v
       | _ -> assert false
