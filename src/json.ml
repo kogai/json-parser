@@ -9,6 +9,7 @@ type t = [
   | `IntT of int
   | `NullT
 ]
+[@@deriving show]
 
 let rec output_value outc = function
   | `ObjectT obj  -> print_assoc outc obj

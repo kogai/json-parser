@@ -5,10 +5,12 @@ let specs = [
   "it should parse object" >:: (fun ctx ->
       let expect = Json.(`ObjectT [("foo", (Json.(`StringT "bar")))]) in 
       let actual = "{ \"foo\": \"bar\" }"
-                   |> Lexing.from_string
+                   |> Sedlexing.Utf8.from_string
                    |> Lexer.read in
       match actual with
-      | Some v ->  assert_equal expect v
+      | Some v ->
+        printf "%s" (Json.show v);
+        assert_equal expect v
       | _ -> assert false
     ); 
   (* 
