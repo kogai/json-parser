@@ -34,9 +34,8 @@ let update synthetic_lexbuf =
   synthetic_lexbuf.position <- { current with Lexing.pos_cnum = next } 
 
 let letter = [%sedlex.regexp? 'a'..'z' | 'A'..'Z' | '_' | '$']
-let quote = [%sedlex.regexp? '"' | "'"]
 let digit = [%sedlex.regexp? '0'..'9']
-let int_t = [%sedlex.regexp? digit, Star digit]
+let int_t = [%sedlex.regexp? Opt '-', digit, Star digit]
 let alphanumeric = [%sedlex.regexp? digit | letter]
 let word = [%sedlex.regexp? letter, Star alphanumeric]
 
@@ -44,7 +43,6 @@ let floatnumber = [%sedlex.regexp? Plus digit, '.', Plus digit]
 let wholenumber = [%sedlex.regexp? Opt '-', digit | floatnumber]
 let scientificnumber = [%sedlex.regexp? wholenumber,'e'|'E', Opt '-'|'+', Plus digit]
 
-let white_space = [%sedlex.regexp? ' '|'\t']
 let new_line = [%sedlex.regexp? '\r'|'\n'|"\r\n"]
 
 let rec lex synthetic_lexbuf =
@@ -61,7 +59,8 @@ let rec lex synthetic_lexbuf =
   | "true" -> TRUE 
   | "false" -> FALSE 
   | "null" -> NULL 
-  | "'" | '"' -> read_string (Buffer.create 127) synthetic_lexbuf
+  | '"' -> read_string (Buffer.create 127) synthetic_lexbuf '"'
+  | '\'' -> read_string (Buffer.create 127) synthetic_lexbuf '\''
   | "{" -> LBRACE 
   | "}" -> RBRACE 
   | "[" -> LBRACKET 
@@ -70,16 +69,20 @@ let rec lex synthetic_lexbuf =
   | "," -> COMMA 
   | eof -> EOF
   | _ -> raise (SyntaxError ("Unexpected character: " ^ Utf8.lexeme lexbuf))
-and read_string buf synthetic_lexbuf =
+(*
+FIXME: It can't be determind single and double quote.
+*)
+and read_string buf synthetic_lexbuf q =
   let lexbuf = synthetic_lexbuf.lexbuf_inner in
-  let quote = lexbuf |> Utf8.lexeme in
-  let string_continue = [%sedlex.regexp? Compl quote] in
+  let quote = [%sedlex.regexp? '"' | "'"] in 
+  let string_continue = [%sedlex.regexp? Compl quote] in 
+
   match%sedlex lexbuf with
   | quote ->
-    STRING (Buffer.contents buf)
+    STRING (Buffer.contents buf) 
   | string_continue ->
     Buffer.add_string buf (Utf8.lexeme lexbuf);
-    read_string buf synthetic_lexbuf
+    read_string buf synthetic_lexbuf q 
   | eof -> raise (SyntaxError ("String is not terminated"))
   | _ -> raise (SyntaxError ("Illegal string charcter: [" ^ Utf8.lexeme lexbuf ^ "]"))
 
@@ -97,8 +100,6 @@ let read synthetic_lexbuf =
     let before = synthetic_lexbuf.position in
     let token = lex synthetic_lexbuf in
     let after = synthetic_lexbuf.position in
-
-    (* print_endline @@ "In lex' " ^ show_token token;  *)
     (token, before, after) in
 
   let parser' = MenhirLib.Convert.Simplified.traditional2revised Parser.prog in 
