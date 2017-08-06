@@ -1,7 +1,10 @@
-OCB_FLAGS = -use-ocamlfind -use-menhir -I src -pkgs sedlex,ounit,core -tag thread
+OCB_FLAGS = -use-ocamlfind -use-menhir -I src -pkgs 'sedlex,ounit,core,menhirlib,ppx_deriving.show' -tags thread
 OCB = ocamlbuild $(OCB_FLAGS)
 
 build:native byte
+
+complement:
+	ocamlbuild -use-ocamlfind -use-menhir -I sandbox -pkgs 'sedlex,ounit,core' -tags thread complement.byte
 
 run:build
 	./main.native fixture.json
@@ -29,6 +32,7 @@ install:
 		core \
 		ocamlfind \
 		sedlex \
+		ppx_deriving\
 		ounit \
 		menhir
 	opam user-setup install
